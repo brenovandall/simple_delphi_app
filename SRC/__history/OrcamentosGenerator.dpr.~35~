@@ -1,0 +1,47 @@
+program OrcamentosGenerator;
+
+uses
+  Vcl.Forms,
+  frmLogin in 'APP\frmLogin.pas' {FormLogin} ,
+  frmMain in 'APP\frmMain.pas' {FormMain} ,
+  uSystemInfo in 'INFRASTRUCTURE\uSystemInfo.pas',
+  uConnection in 'INFRASTRUCTURE\uConnection.pas', Vcl.Dialogs,
+  System.SysUtils {frmConnection: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+
+  ReportMemoryLeaksOnShutdown := True;
+
+  Application.CreateForm(TfrmConnection, frmConnection);
+
+  try
+    try
+      FormLogin := TFormLogin.Create(nil);
+      FormLogin.ShowModal;
+
+      if not frmConnection.FDConnection.Connected then
+      begin
+        ShowMessage
+          ('Não foi possível conectar-se ao banco de dados, tente novamente mais tarde.');
+        Application.Terminate;
+      end;
+
+      Application.CreateForm(TFormMain, FormMain);
+    finally
+      FormLogin.Hide;
+      FormLogin.Free;
+    end;
+  except
+    on E: Exception do
+    begin
+      ShowMessage('Ocorreu um erro não esperado.')
+    end;
+  end;
+
+  Application.Run;
+
+end.

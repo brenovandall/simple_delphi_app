@@ -1,0 +1,21 @@
+object frmConnection: TfrmConnection
+  Height = 480
+  Width = 640
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'DriverID=IB'
+      'User_Name=sysdba'
+      'Password=masterkey')
+    Left = 80
+    Top = 24
+  end
+  object FDPhysFBDriverLink: TFDPhysFBDriverLink
+    Left = 80
+    Top = 96
+  end
+  object FDGUIxWaitCursor: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 80
+    Top = 168
+  end
+end
